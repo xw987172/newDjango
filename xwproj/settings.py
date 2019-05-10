@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+#import djcelery
+#djcelery.setup_loader()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,12 +27,16 @@ SECRET_KEY = 'uy+n*3o-7^+6kx$yk00csk2$38zfljm#5yla$&dkw+&p=+5tl@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+	#'djcelery',
+	#'kombu.transport.django',
+	'firstapp',
+	'map',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +60,7 @@ ROOT_URLCONF = 'xwproj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,8 +131,17 @@ USE_L10N = True
 
 USE_TZ = True
 
+# add broker and backend for djcelery
+#BROKER_URL='amqp://admin:bigdata123@localhost:5672//'
+#CELERY_RESULT_BACKEND = 'redis://:bigdata123@localhost:6379/3'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+	os.path.join(BASE_DIR,'static'),
+]
+
+LOGIN_REDIRECT_URL = '/home/'

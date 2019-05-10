@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}徐威的个人主页{% endblock %}
+{% block content %}
+<div class = "text-center">
+	<h1>欢迎访问我的空间</h1>
+	<h3>生命短暂，我就想用python让自己活动轻松一点</h3>
+	{% load staticfiles %}
+	<img src = "{% static 'python.jpg' %}">
+</div>
+{% endblock %}
