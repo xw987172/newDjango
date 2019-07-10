@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}守正评级数据仓库{% endblock %}
+{% block content %}
+<div class="row">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+    <form action="{% url 'mlearnapp:fitp' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+          <label for="exampleInputFile">请上传训练测试集</label>
+          <input type="file" id="exampleInputFile" name = "train_test_file">
+          <p class="help-block">Example block-level help text here.</p>
+      </div>
+      <div class ="form-group">
+          <label>特征选择</label>
+          <select id = "featureSelect" name="featureSelect">
+            <option value=''>不启用特征选择</option>
+            {% for f,desc in featureSelect.items %}
+                <option value='{{ f }}'>{{ desc }}</option>
+            {% endfor %}
+          </select>
+      </div>
+      <div class ="form-group">
+          <label>模型类型选择</label>
+          <select id= "modelType" onChange="changeModel()">
+            <option value="">请选择模型类型</option>
+            <option value="分类">分类问题</option>
+            <option value="回归">回归问题</option>
+          </select>
+          <label>模型选择</label>
+          <select id="modelSelect" name = "modelSelect">
+
+          </select>
+      </div>
+
+      <div class= "form-group">
+        <label>预测样本上传</label>
+        <input type="file" name="preidict_data"/>
+      </div>
+      <button type="submit" class="btn btn-default">训练及预测</button>
+   </form>
+</div>
+<div class="col-md-2"></div>
+</div>
+<script language="JavaScript">
+    function changeModel(){
+        var mType = document.getElementById("modelType")
+        var val = mType.value;
+        if (val==""){
+            alert("必须选择模型类型");
+            return;
+        }
+        var mSelect = document.getElementById("modelSelect");
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function()
+        {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                var data = JSON.parse(xmlHttp.responseText);
+                for (var k in data.modelList){
+                    mSelect.options[mSelect.options.length] = new Option(data.modelList[k],k);
+                }
+            }
+        }
+        xmlHttp.open("GET", "{% url 'mlearnapp:modelList' %}?modelType="+val, false);
+        xmlHttp.send();
+
+    }
+</script>
+{% endblock %}

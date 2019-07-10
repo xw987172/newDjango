@@ -37,6 +37,8 @@ INSTALLED_APPS = [
 	#'kombu.transport.django',
 	'firstapp',
 	'map',
+    'crawl',
+    'mlearnapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,14 +89,18 @@ DATABASES = {
     }
 }
 '''
-DATABAES = {
+DATABASES = {
 	'default':{
 		'ENGINE': 'django.db.backends.mysql',
-		'NAME':'mydb',
-		'USER':'root',
-		'PASSWORD':'xw123456',
-		'HOST':'localhost',
-		'PORT':'3306'
+		'NAME':'spider',
+        'USER':'root',
+        'PASSWORD':'20152825',
+        'PORT':'3307',
+        'HOST':'39.97.186.81',
+		#'USER':'spider',
+		#'PASSWORD':'SzPj24^365wx',
+		#'HOST':'localhost',
+		#'PORT':'3306',
 	}
 }
 

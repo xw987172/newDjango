@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from firstapp.views import index,myprofile
+from firstapp.views import index,myprofile,search
 app_name = 'firstapp'
 urlpatterns = [
 	path('myprofile/', myprofile,name='myprofile'),
+	path('search/',search,name='search')
 ]
