@@ -13,20 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.conf.urls import url,include
-from django.views import static
-from django.conf import settings
-from django.views.generic import TemplateView
 from django.urls import path
+from npapi.views import fisher
+app_name = 'npapi'
 urlpatterns = [
-    path('admin/', admin.site.urls),
-	url(r'^firstapp/',include('firstapp.urls')),
-	url(r'^map/',include('map.urls')),
-    url(r'^article',include('article.urls')),
-	url(r'^crawl/',include('crawl.urls')),
-    url(r'^npapi/',include('npapi.urls')),
-	url(r'^mlearnapp/',include('mlearnapp.urls')),
-    url(r'^static/(?P<path>.*)$',static.serve,{'document_root':settings.STATIC_ROOT},name='static'),
-	url(r'home/',TemplateView.as_view(template_name="home.html"),name = 'home')
+	path('fisher/',fisher,name='fisher')
 ]

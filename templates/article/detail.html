@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}守正评级数据仓库{% endblock %}
+{% block content %}
+<div class="row">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+    <h2>{{ title }}</h2>
+    <div style="margin-top:10px;margin-bottom:10px" align="right">
+        <select name="rate" onchange="rate()">
+        <option select="selected">请选择类别</option>
+        <option value="正向">正向</option>
+        <option value="中立">中立</option>
+        <option value="负向一星">负向一星</option>
+        <option value="负向二星">负向二星</option>
+        <option value="负向三星">负向三星</option>
+        <option value="不评价">不评价</option>
+        </select>
+    </div>
+    
+    <div>
+        <iframe src="{{ entityurl }}" style="width:100%;min-height:700px">
+    
+        </iframe>
+    </div>
+</div>
+<div class = "col-md-2"></div>
+</div>
+<script language="JavaScript">
+    function rate(){
+        var form = new FormData();
+        var mType = document.getElementsByName("rate")[0];
+        var val = mType.value;
+        form.append("csrfmiddlewaretoken",'{{ csrf_token }}');
+        form.append("entityurl",'{{ entityurl }}');
+        form.append("rate",val);
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function()
+        {
+             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                alert("您已为该条咨询评为:"+val)
+             }
+        }
+        xmlHttp.open("POST", "{% url 'article:setRate' %}", false);
+        xmlHttp.send(form);
+    }
+</script>
+{% endblock %}

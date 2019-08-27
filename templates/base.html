@@ -34,19 +34,20 @@
         <li class="active"><a href="#">首页 <span class="sr-only">(current)</span></a></li>
         <li><a href="{% url 'home' %}">首页</a></li>
         <li><a href="http://39.97.184.89:8888/" target='blank'>jupyter工具</a></li>
-        <li><a href="{% url 'crawl:crawl_index' %}">爬虫中心</a></li>
+        <li><a href="http://39.97.184.89:8000/#/home">爬虫中心</a></li>
         <li><a href="{% url 'mlearnapp:mindex' %}">自助建模</a></li>
+        <li><a href="{% url 'article:aindex' %}">文章情感分类</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"     aria-expanded="false">Dropdown <span class="caret"></span></a>
+                 <ul class="dropdown-menu">
+                    <li><a href="#">Java</a></li>
+                    <li><a href="#">Python</a></li>
+                    <li><a href="#">C#</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
         </li>
       </ul>
       <form class="navbar-form navbar-left" action = "{% url 'firstapp:search' %}" method='post'>

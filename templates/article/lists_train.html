@@ -1,0 +1,32 @@
+{% extends 'article/index.html' %}
+
+{% block newslist %}
+<thead>
+ <th>C1</th>
+ <th>C2</th>
+ <th>C3</th>
+ <th width="50px">C4</th>
+ <th>C6</th>
+ <th>C8</th>
+ <th>C3_tt</th>
+ <th>Other</th>
+ <th>risk</th>
+ <th>instInfo</th>
+<thead>
+<tbody>
+
+    {% for line in data %}
+        <tr>
+            <td>{{ line.C1 }}</td>
+            <td>{{ line.C2 }} </td>
+            <td>{{ line.C3 }} </td>
+            <td width='2%'>{{ line.C4 }}</td>
+            <td>{{ line.C6 }}</td>
+            <td>{{ line.C8 }}</td>
+            <td>{{ line.C3_tt }}</td>
+            <td>{{ line.Other }}</td>
+            <td>{{ line.risk }}</td>
+            <td>{{ line.instInfo }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

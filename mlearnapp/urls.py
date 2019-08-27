@@ -14,10 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from mlearnapp.views import mindex,fitp,modelList
+from mlearnapp.views import mindex,fitp,modelList,getFileHeader,getFeatures
 app_name = 'mlearnapp'
 urlpatterns = [
 	path('mindex/', mindex,name='mindex'),
 	path('modelList/', modelList,name='modelList'),
-	path('fitp/',fitp,name='fitp')
+	path('fitp/',fitp,name='fitp'),
+    path('getFileHeader',getFileHeader,name="getFileHeader"),
+    path('getFeatures',getFeatures,name="getFeatures")
 ]

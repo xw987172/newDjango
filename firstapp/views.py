@@ -1,14 +1,21 @@
 from django.shortcuts import render
 import pdfkit
+import os
 from django.db import connection
 # Create your views here.
-
+from django.http import HttpResponse,Http404,FileResponse
 def index(request):
 	return render(request,'index.html')
 
 def myprofile(request):
+    file_path="static/myprofile.pdf"
 	#pdf = pdfkit.from_file('myprofile.pdf',False)
-	return render(request,'myprofile.html',{'pdf':"暂未能解析"})
+    with open(file_path,'rb') as f:
+        response = FileResponse(f)
+        response['content_type'] = "application/octet-stream"
+        #response['content_type'] = "application/x-msdownload"
+        response["Content-Disposition"] = 'attachment; filename=' + os.path.basename(file_path)
+        return response
 
 def search(request):
     result = dict()

@@ -8,17 +8,23 @@
       {% csrf_token %}
       <div class="form-group">
           <label for="exampleInputFile">请上传训练测试集</label>
-          <input type="file" id="exampleInputFile" name = "train_test_file">
+          <input type="file" id="exampleInputFile" name = "train_test_file" onchange="showFileHeader(this)">
           <p class="help-block">Example block-level help text here.</p>
       </div>
+      <div class="form-group" id = "columns"></div>
       <div class ="form-group">
           <label>特征选择</label>
-          <select id = "featureSelect" name="featureSelect">
+          <select id = "featureSelect" name="featureSelect" onChange="changeFeature()">
+            <option value=''>请选择</option>
             <option value=''>不启用特征选择</option>
             {% for f,desc in featureSelect.items %}
                 <option value='{{ f }}'>{{ desc }}</option>
             {% endfor %}
           </select>
+      </div>
+      <div class="form-group">
+            <label id = "featureLabel" style="display:none">已选择的特征</label>
+            <textarea type="text" name = "mfeatures" style="display:none"></textarea>
       </div>
       <div class ="form-group">
           <label>模型类型选择</label>
@@ -33,18 +39,14 @@
           </select>
       </div>
 
-      <div class= "form-group">
-        <label>预测样本上传</label>
-        <input type="file" name="preidict_data"/>
-      </div>
-      <button type="submit" class="btn btn-default">训练及预测</button>
+      <button type="submit" class="btn btn-default">训练模型</button>
    </form>
 </div>
 <div class="col-md-2"></div>
 </div>
 <script language="JavaScript">
     function changeModel(){
-        var mType = document.getElementById("modelType")
+        var mType = document.getElementById("modelType");
         var val = mType.value;
         if (val==""){
             alert("必须选择模型类型");
@@ -63,6 +65,63 @@
         }
         xmlHttp.open("GET", "{% url 'mlearnapp:modelList' %}?modelType="+val, false);
         xmlHttp.send();
+    }
+
+    function changeFeature(){
+        var form = new FormData();
+        var mFile = document.getElementsByName("train_test_file")[0];
+        var mType = document.getElementById("featureSelect");
+        var val = mType.value;
+        var myfeatures = document.getElementsByName("mfeatures")[0];
+        var featureLabel = document.getElementById("featureLabel");
+        form.append("csrfmiddlewaretoken",'{{ csrf_token }}');
+        form.append("train_test_file",mFile.files[0])
+        form.append("featureSelect",val);
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function()
+        {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                var data = xmlHttp.responseText;
+                featureLabel.style.display = "block";
+                myfeatures.style.display="block";
+                myfeatures.value = data;
+                
+            }
+        }
+        xmlHttp.open("POST", "{% url 'mlearnapp:getFeatures' %}", false);
+        xmlHttp.send(form);
+    }
+
+    function insertAfter( newElement, targetElement ){ 
+        var parent = targetElement.parentNode; // 找到指定元素的父节点 
+        if( parent.lastChild == targetElement ){
+            parent.appendChild( newElement, targetElement ); 
+        }else{ 
+            parent.insertBefore( newElement, targetElement.nextSibling ); 
+        } 
+    }
+
+    function showFileHeader(){
+        if(confirm("确认上传的excel有header？"))
+        var mFile = document.getElementsByName("train_test_file")[0];
+        if (mFile.files.length<=0){
+            alert("未上传文件");
+            return;
+        }
+        var form = new FormData();
+        form.append('train_test_file',mFile.files[0]);
+        form.append("csrfmiddlewaretoken",'{{ csrf_token }}');
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function()
+        {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                document.getElementById("columns").innerHTML= "";
+                var data = xmlHttp.responseText;
+                document.getElementById("columns").innerHTML= data;
+            }
+        }
+        xmlHttp.open("POST", "{% url 'mlearnapp:getFileHeader' %}", true);
+        xmlHttp.send(form);
 
     }
 </script>
