@@ -11,7 +11,7 @@
 
     {% for line in data %}
         <tr>
-            <td><a href="/articledetail?entityurl={{ line.entityurl }}&title={{ line.title }}">{{ line.title }}</a></td>
+            <td><a href="/articledetail?entityurl={{ line.entityurl }}&title={{ line.title }}&rate={{ line.rate }}">{{ line.title }}</a></td>
             <td>{{ line.entityurl }} </td>
             <td>{{ line.entitytime }} </td>
             <td>{{ line.rate }}</td>

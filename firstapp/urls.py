@@ -14,9 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from firstapp.views import index,myprofile,search
+from firstapp.views import index,myprofile,search,data_index,getExcelSample,checkExcelSample,getDataSet,getDataSetByName
 app_name = 'firstapp'
 urlpatterns = [
 	path('myprofile/', myprofile,name='myprofile'),
-	path('search/',search,name='search')
+	path('search/',search,name='search'),
+    path("data_index/",data_index,name='data_index'),
+    path("getExcelSample/",getExcelSample,name='getExcelSample'),
+    path("checkExcelSample/",checkExcelSample,name="checkExcelSample"),
+    path("getDataSet/",getDataSet,name = "getDataSet"),
+    path("getDataSetByName/",getDataSetByName,name = "getDataSetByName"),
 ]

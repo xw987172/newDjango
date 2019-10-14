@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 import joblib
 import pandas as pd
 import numpy as np
+@csrf_exempt
 def fisher(request):
+    print(request.POST)
     model = joblib.load("files/model/fisher_judge_2019.pkl")
     # 系数与常数项
     w,w0 = model.coef_,model.intercept_
@@ -25,11 +28,17 @@ def fisher(request):
     data["无形资产"] = [1000,2302,800]
     data["fcff/经营性净现金流"] = [10,20,30]
     grades = getGrades(pd.DataFrame(data).drop(["s_info_compname","report_period"],axis=1),w,w0)
+    result0 = dict()
     result = dict()
-    result["s_info_compname"] =  data["s_info_compname"]
-    result["report_period"] = data["report_period"]
-    result["score"] = grades.tolist()
-    return JsonResponse(result)
+    #result["s_info_compname"] =  data["s_info_compname"]
+    #result["report_period"] = data["report_period"]
+    result["score"] = [x[0] for x in grades.tolist()]
+    result["rank"] = ["AAA","AA+","A"]
+    result["report_period"] = ["20181231","20181231","20171231"]
+    result0["data"] = result
+    result0["msgCode"] = 200
+    result0["msg"] = "success"
+    return JsonResponse(result0)
 
 def getGrades(sample,w,w0):
     """

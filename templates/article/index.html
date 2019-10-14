@@ -11,7 +11,7 @@
                 <option value=0>请选择有无分类</option>
                 <option value = "cate">已分类</option>
                 <option value="nocate">未分类</option>
-                <option value="train">大智慧365训练样本</option>
+                <!--<option value="train">大智慧365训练样本</option>-->
             </select>
         </div>
         <div class="form-group">
@@ -19,6 +19,7 @@
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
+    <div><a href="{% url 'article:doExcelIndex' %}">上传大智慧365负面新闻Excel</a></div>
     </div>
     <div class="col-md-2"></div>
 </div>
@@ -37,7 +38,7 @@
         <tbody>
             {% for line in data %}
                 <tr>
-                    <td><a href="/articledetail?entityurl={{ line.entityurl }}&title={{ line.title }}">{{ line.title }}</a></td>
+                    <td><a href="/articledetail?entityurl={{ line.entityurl }}&title={{ line.title }}&rate={{ line.rate }}">{{ line.title }}</a></td>
                     <td>{{ line.entityurl }} </td>
                     <td>{{ line.entitytime }} </td>
                     <td>{{ line.rate }}</td>
